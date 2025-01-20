@@ -220,6 +220,24 @@ function App() {
   const handlePageChange = (page) => {
     getProduct(page);
   }
+
+  const handleFileChange = async (e) => {
+    const formData = new FormData();
+    const fileInput = e.target;
+    const file = e.target.files[0];
+    formData.append('file-to-upload', file);
+
+    try {
+      const res = await axios.post(`${BASE_URL}/v2/api/${API_PATH}/admin/upload`, formData);
+      const uploadImageUrl = res.data.imageUrl;
+      setTempProduct({
+        ...tempProduct,
+        imageUrl: uploadImageUrl
+      })
+      fileInput.value = '';
+    } catch (error) {
+    }
+  }
   
   return(
   <>
@@ -343,6 +361,18 @@ function App() {
         <div className="modal-body p-4">
           <div className="row g-4">
             <div className="col-md-4">
+              {/* 圖片上傳 */}
+              <div className="mb-5">
+                <label htmlFor="fileInput" className="form-label"> 圖片上傳 </label>
+                <input
+                  onChange={handleFileChange}
+                  type="file"
+                  accept=".jpg,.jpeg,.png"
+                  className="form-control"
+                  id="fileInput"
+                />
+              </div>
+
               <div className="mb-4">
                 <label htmlFor="primary-image" className="form-label">
                   主圖
