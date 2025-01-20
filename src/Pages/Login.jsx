@@ -4,8 +4,7 @@ import { useState, useEffect } from "react";
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 
 function Login ({
-  setIsAuth,
-  getProduct
+  setIsAuth
 }) {
 
   const [account, setAccount] = useState({
@@ -51,7 +50,6 @@ function Login ({
     try {
       await axios.post(`${BASE_URL}/v2/api/user/check`);
       setIsAuth(true);
-      getProduct();
     } catch (error) {
       alert('登入驗證失敗');
     }
