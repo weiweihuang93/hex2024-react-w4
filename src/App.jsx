@@ -26,6 +26,7 @@ function App() {
   const [isAuth, setIsAuth] = useState(false);
   const [products, setProducts] = useState([]);
   const [token, setToken] = useState();
+  const [pagination, setPagination] = useState({});
 
   useEffect(() => {
     const token = document.cookie.replace(
@@ -70,10 +71,11 @@ function App() {
     }
   };
 
-  const getProduct = async () => {
+  const getProduct = async (page = 1) => {
     try {
-      const res = await axios.get(`${BASE_URL}/v2/api/${API_PATH}/admin/products`);
+      const res = await axios.get(`${BASE_URL}/v2/api/${API_PATH}/admin/products?page=${page}`);
       setProducts(res.data.products);
+      setPagination(res.data.pagination);
     } catch (error) {
       alert('取得產品失敗');
     }
@@ -214,6 +216,10 @@ function App() {
       alert('刪除產品失敗');
     }
   };
+
+  const handlePageChange = (page) => {
+    getProduct(page);
+  }
   
   return(
   <>
@@ -261,6 +267,42 @@ function App() {
           </table>
         </div>
       </div>
+
+      {/* 分頁 */}
+      <div className="d-flex justify-content-center">
+        <nav>
+          <ul className="pagination">
+            <li className="page-item">
+              <a 
+                onClick={() => handlePageChange(pagination.current_page - 1)}
+                className={`page-link ${pagination.has_pre ? '' : 'disabled'}`} 
+                href="#">
+                上一頁
+              </a>
+            </li>
+            {Array.from({ length: pagination.total_pages }).map((_, index) => (
+              <li key={index} className="page-item" >
+                <a 
+                  onClick={() => handlePageChange(index + 1)}
+                  className={`page-link ${pagination.current_page === index + 1 ? 'active' : ''}`} 
+                  href="#" >
+                  {index + 1}
+                </a>
+              </li>
+            ))}
+
+            <li className="page-item" >
+              <a
+                onClick={() => handlePageChange(pagination.current_page + 1)}
+                className={`page-link ${pagination.has_next ? '' : 'disabled'}`}
+                href="#">
+                下一頁
+              </a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+
     </div>
   </>) : 
   (<>
