@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useState, useEffect, useRef } from "react";
 import { Modal } from "bootstrap";
+import Pagination from "../Components/Pagination";
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 const API_PATH = import.meta.env.VITE_API_PATH;
@@ -177,10 +178,6 @@ function Products ({
     }
   };
 
-  const handlePageChange = (page) => {
-    getProduct(page);
-  }
-
   const handleFileChange = async (e) => {
     const formData = new FormData();
     const fileInput = e.target;
@@ -244,39 +241,9 @@ function Products ({
       </div>
 
       {/* 分頁 */}
-      <div className="d-flex justify-content-center">
-        <nav>
-          <ul className="pagination">
-            <li className="page-item">
-              <a 
-                onClick={() => handlePageChange(pagination.current_page - 1)}
-                className={`page-link ${pagination.has_pre ? '' : 'disabled'}`} 
-                href="#">
-                上一頁
-              </a>
-            </li>
-            {Array.from({ length: pagination.total_pages }).map((_, index) => (
-              <li key={index} className="page-item" >
-                <a 
-                  onClick={() => handlePageChange(index + 1)}
-                  className={`page-link ${pagination.current_page === index + 1 ? 'active' : ''}`} 
-                  href="#" >
-                  {index + 1}
-                </a>
-              </li>
-            ))}
-
-            <li className="page-item" >
-              <a
-                onClick={() => handlePageChange(pagination.current_page + 1)}
-                className={`page-link ${pagination.has_next ? '' : 'disabled'}`}
-                href="#">
-                下一頁
-              </a>
-            </li>
-          </ul>
-        </nav>
-      </div>
+      <Pagination
+        getProduct={getProduct}
+        pagination={pagination} />
 
     </div>
     
