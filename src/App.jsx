@@ -9,13 +9,13 @@ function App() {
   return(
   <>
   {isAuth ? 
-  (<>
+  (
     <Products isAuth={isAuth}/>
-  </>) : 
-  (<>
+  ) : 
+  (
     <Login
       setIsAuth={setIsAuth} />
-  </>)}
+)}
   </>
   )
 };
