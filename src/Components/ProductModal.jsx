@@ -115,7 +115,6 @@ function ProductModal ({
       await apiCall();
       getProduct();
     } catch (error) {
-      console.log(error)
       const errorMessage = error.response?.data?.message || '發生未知錯誤';
       alert(`新增產品失敗: ${errorMessage}`);
     }
