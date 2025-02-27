@@ -87,8 +87,9 @@ function ProductModal ({
           is_enabled: modalData.is_enabled ? 1 : 0
         }
       });
+      closeModal();
     } catch (error) {
-      alert('新增產品失敗');
+      throw error;
     }
   };
 
@@ -102,8 +103,9 @@ function ProductModal ({
           is_enabled: modalData.is_enabled ? 1 : 0
         }
       });
+      closeModal();
     } catch (error) {
-      alert('修改產品失敗');
+      throw error;
     }
   };
 
@@ -112,9 +114,10 @@ function ProductModal ({
     try {
       await apiCall();
       getProduct();
-      closeModal();
     } catch (error) {
-      alert('更新產品失敗');
+      console.log(error)
+      const errorMessage = error.response?.data?.message || '發生未知錯誤';
+      alert(`新增產品失敗: ${errorMessage}`);
     }
   };
 
@@ -268,6 +271,7 @@ function ProductModal ({
                       type="number"
                       className="form-control"
                       placeholder="請輸入原價"
+                      min="0" // 限制最小值為 0
                     />
                   </div>
                   <div className="col-6">
@@ -282,6 +286,7 @@ function ProductModal ({
                       type="number"
                       className="form-control"
                       placeholder="請輸入售價"
+                      min="0" // 限制最小值為 0
                     />
                   </div>
                 </div>
