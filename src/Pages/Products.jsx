@@ -49,8 +49,8 @@ function Products ({
   const openModal = (mode, product) => {
     setModalMode(mode);
     switch (mode) {
-      case 'create':
-        setTempProduct(defaultModalState);
+      case 'create':// 確保新增模式時，表單內容重置
+        setTempProduct({ ...defaultModalState });
         break;
       
       case 'edit':
