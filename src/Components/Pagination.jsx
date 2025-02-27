@@ -3,7 +3,8 @@ function Pagination ({
   pagination
 }) {
 
-  const handlePageChange = (page) => {
+  const handlePageChange = (e, page) => {
+    e.preventDefault();
     getProduct(page);
   }
 
@@ -13,7 +14,7 @@ function Pagination ({
         <ul className="pagination">
           <li className="page-item">
             <a 
-              onClick={() => handlePageChange(pagination.current_page - 1)}
+              onClick={(e) => handlePageChange(e, pagination.current_page - 1)}
               className={`page-link ${pagination.has_pre ? '' : 'disabled'}`} 
               href="#">
               上一頁
@@ -22,7 +23,7 @@ function Pagination ({
           {Array.from({ length: pagination.total_pages }).map((_, index) => (
             <li key={index} className="page-item" >
               <a 
-                onClick={() => handlePageChange(index + 1)}
+                onClick={(e) => handlePageChange(e, index + 1)}
                 className={`page-link ${pagination.current_page === index + 1 ? 'active' : ''}`} 
                 href="#" >
                 {index + 1}
@@ -32,7 +33,7 @@ function Pagination ({
 
           <li className="page-item" >
             <a
-              onClick={() => handlePageChange(pagination.current_page + 1)}
+              onClick={(e) => handlePageChange(e, pagination.current_page + 1)}
               className={`page-link ${pagination.has_next ? '' : 'disabled'}`}
               href="#">
               下一頁
